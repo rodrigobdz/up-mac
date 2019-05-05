@@ -32,6 +32,9 @@ pnpm prune
 # Gem
 gem update --user-install
 
+# dotfiles
+rcup
+
 # VSCode
 # Coming soon...
 # https://github.com/Microsoft/vscode/issues/16459
