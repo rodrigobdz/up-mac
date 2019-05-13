@@ -13,11 +13,11 @@ brew cask upgrade --greedy && brew cask cleanup; brew cask doctor
 npm update -g
 
 # Yarn
-cd $(yarn global dir)
-yarn cache --force clean
-rm -rf node_modules/
-yarn install
-yarn upgrade
+cd $(yarn global dir) &&
+yarn cache --force clean &&
+rm -rf node_modules/ &&
+yarn install &&
+yarn upgrade &&
 yarn autoclean --force
 
 # Mac App Store
@@ -25,10 +25,6 @@ mas upgrade
 
 # Fisherman
 fish -c "fisher self-update"
-
-# pnpm
-pnpm update --global
-pnpm prune
 
 # Gem
 gem update --user-install

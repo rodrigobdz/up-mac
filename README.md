@@ -5,14 +5,14 @@
 - [brew](https://brew.sh/)
 - [npm](https://www.npmjs.com/)
 - [yarn](https://yarnpkg.com/lang/en/)
-- [pnpm](https://github.com/pnpm/pnpm)
 - [fisher](https://github.com/fisherman/fisherman)
 - [mas](https://github.com/mas-cli/mas)
+- [dotfiles](https://github.com/thoughtbot/dotfiles)
 
-## Usage 
+## Usage
 - Run script.
 ```zsh
-# Make script executable
+# Make script executable
 $ chmod +x up.sh
 # Run script
 $ ./up.sh
