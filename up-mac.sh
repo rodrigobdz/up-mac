@@ -7,6 +7,7 @@ set -o errtrace
 
 # Brew
 brew update && brew upgrade && brew cleanup; brew doctor
+brew cask upgrade --greedy && brew cask cleanup; brew cask doctor
 
 # npm
 npm update -g
