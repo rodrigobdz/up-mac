@@ -2,5 +2,5 @@ os: osx
 osx_image: xcode10.2
 language: bash
 script:
-  - shellcheck up-mac
+  - bash -c 'shellcheck up-mac'
   - bash up-mac
