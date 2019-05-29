@@ -1,0 +1,5 @@
+os: osx
+language: bash
+script:
+  - shellcheck up-mac
+  - bash up-mac
