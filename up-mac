@@ -1,37 +1,97 @@
 #!/usr/bin/env bash
+#
+# Update dependencies mac via CLI.
 
 set -o errexit
 set -o pipefail
 set -o nounset
-set -o errtrace
 
-# Brew
-brew update && brew upgrade && brew cleanup; brew doctor
-brew cask upgrade --greedy && brew cask cleanup; brew cask doctor
+fancy_echo() {
+	echo
+	echo "==> $1"
+	echo
+}
 
-# npm
-npm update -g
+# Check if command exists in path and is executable,
+# otherwise skip.
+entrypoint() {
+	local -r cmd="$1"
 
-# Yarn
-cd $(yarn global dir) &&
-yarn cache --force clean &&
-rm -rf node_modules/ &&
-yarn install &&
-yarn upgrade &&
-yarn autoclean --force
+	# shellcheck disable=2086
+	if [ -x "$(command -v $cmd)" ]; then
+		fancy_echo "$cmd up"
+		return
+	fi
 
-# Mac App Store
-mas upgrade
+	fancy_echo "Skipping $cmd"
 
-# Fisherman
-fish -c "fisher self-update"
+	# Avoid early exit of script when skipping
+	set +o errexit
+	return 1
+	set -o errexit
+}
 
-# Gem
-gem update --user-install
+brew_up() {
+	entrypoint brew || exit
 
-# dotfiles
-rcup
+	brew update && brew upgrade && brew cleanup
+	fancy_echo "brew cask up"
+	brew cask upgrade --greedy
+}
+
+npm_up() {
+	entrypoint npm || exit
+
+	npm update -g
+}
+
+yarn_up() {
+	entrypoint yarn || exit
+
+	cd "$(yarn global dir)" &&
+		yarn cache --force clean &&
+		rm -rf node_modules/ &&
+		yarn install &&
+		yarn upgrade &&
+		yarn autoclean --force
+}
+
+mas_up() {
+	entrypoint mas || exit
+
+	mas upgrade
+}
+
+fisher_up() {
+	entrypoint fish || exit
+
+	fish -c "fisher self-update"
+}
+
+gem_up() {
+	entrypoint gem || exit
+
+	gem update --user-install
+}
+
+rcup_up() {
+	entrypoint rcup || exit
+
+	rcup
+}
 
 # VSCode
 # Coming soon...
 # https://github.com/Microsoft/vscode/issues/16459
+
+main() {
+	brew_up
+	npm_up
+	yarn_up
+	mas_up
+	fisher_up
+	gem_up
+	rcup_up
+}
+
+main "$@"
