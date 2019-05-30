@@ -2,7 +2,6 @@
 #
 # Update dependencies mac via CLI.
 
-set -o errexit
 set -o pipefail
 set -o nounset
 
@@ -25,14 +24,11 @@ entrypoint() {
 
 	fancy_echo "Skipping $cmd"
 
-	# Avoid early exit of script when skipping
-	set +o errexit
 	return 1
-	set -o errexit
 }
 
 brew_up() {
-	entrypoint brew || exit
+	entrypoint brew || return
 
 	brew update && brew upgrade && brew cleanup
 	fancy_echo "brew cask up"
@@ -40,13 +36,13 @@ brew_up() {
 }
 
 npm_up() {
-	entrypoint npm || exit
+	entrypoint npm || return
 
 	npm update -g
 }
 
 yarn_up() {
-	entrypoint yarn || exit
+	entrypoint yarn || return
 
 	cd "$(yarn global dir)" &&
 		yarn cache --force clean &&
@@ -57,25 +53,25 @@ yarn_up() {
 }
 
 mas_up() {
-	entrypoint mas || exit
+	entrypoint mas || return
 
 	mas upgrade
 }
 
 fisher_up() {
-	entrypoint fish || exit
+	entrypoint fish || return
 
 	fish -c "fisher self-update"
 }
 
 gem_up() {
-	entrypoint gem || exit
+	entrypoint gem || return
 
 	gem update --user-install
 }
 
 rcup_up() {
-	entrypoint rcup || exit
+	entrypoint rcup || return
 
 	rcup
 }
