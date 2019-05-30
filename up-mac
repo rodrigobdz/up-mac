@@ -88,6 +88,7 @@ main() {
 	fisher_up
 	gem_up
 	rcup_up
+	fancy_echo "Hooray! Everything up-to-date." && exit 0
 }
 
 main "$@"
