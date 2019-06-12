@@ -1,4 +1,4 @@
-# UP Mac :balloon:
+# UP Mac :balloon: [![Build Status](https://travis-ci.com/rodrigobdz/up-mac.svg?branch=master)](https://travis-ci.com/rodrigobdz/up-mac)
 
 **UP**grade your **Mac** programs via CLI.
 
