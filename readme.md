@@ -4,7 +4,7 @@
 
 ### Features
 
-Following programs will be used, if installed, to upgrade dependencies:
+If installed, the following programs will be upgraded:
 
 - [brew](https://brew.sh/)
 - [npm](https://www.npmjs.com/)
