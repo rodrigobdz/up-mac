@@ -76,6 +76,12 @@ rcup_up() {
 	rcup
 }
 
+tldr_up() {
+	entrypoint tldr || return
+
+	tldr --update
+}
+
 # VSCode
 # Coming soon...
 # https://github.com/Microsoft/vscode/issues/16459
@@ -88,6 +94,7 @@ main() {
 	fisher_up
 	gem_up
 	rcup_up
+	tldr_up
 	fancy_echo "Hooray! Everything up-to-date." && exit 0
 }
 
