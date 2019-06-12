@@ -13,6 +13,7 @@ Following programs will be used, if installed, to upgrade dependencies:
 - [gem](https://rubygems.org)
 - [fisher](https://github.com/fisherman/fisherman)
 - [dotfiles](https://github.com/thoughtbot/dotfiles)
+- [tldr](https://github.com/tldr-pages/tldr)
 
 ## Usage
 
