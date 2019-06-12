@@ -1,6 +1,13 @@
 os: osx
 osx_image: xcode10.2
 language: bash
+cache:
+  npm: true
+  yarn: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
+before_cache:
+  - brew cleanup
 addons:
   homebrew:
     packages:
