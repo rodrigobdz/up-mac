@@ -5,6 +5,8 @@
 set -o pipefail
 set -o nounset
 
+readonly LOG_DIR=./log
+
 fancy_echo() {
 	echo
 	echo "==> $1"
@@ -27,59 +29,68 @@ entrypoint() {
 	return 1
 }
 
+welcome() {
+	fancy_echo "up-mac"
+	mkdir -p "$LOG_DIR"/
+}
+
 brew_up() {
 	entrypoint brew || return
 
-	brew update && brew upgrade && brew cleanup
-	fancy_echo "brew cask up"
-	brew cask upgrade --greedy
+	{
+		brew update && brew upgrade && brew cleanup
+		fancy_echo "brew cask up"
+		brew cask upgrade --greedy
+	} 2>&1 | tee "$LOG_DIR"/brew.log
 }
 
 npm_up() {
 	entrypoint npm || return
 
-	npm update -g
+	npm update -g &>"$LOG_DIR"/npm.log &
 }
 
 yarn_up() {
 	entrypoint yarn || return
 
-	cd "$(yarn global dir)" &&
-		yarn cache --force clean &&
-		rm -rf node_modules/ &&
-		yarn install &&
-		yarn upgrade &&
-		yarn autoclean --force
+	{
+		cd "$(yarn global dir)" &&
+			yarn cache --force clean &&
+			rm -rf node_modules/ &&
+			yarn install &&
+			yarn upgrade &&
+			yarn autoclean --force
+	} &>"$LOG_DIR"/yarn.log &
 }
 
 mas_up() {
 	entrypoint mas || return
 
-	mas upgrade
+	mas upgrade &>"$LOG_DIR"/mas.log &
 }
 
 fisher_up() {
 	entrypoint fish || return
 
-	fish -c "fisher self-update"
+	fish -c "fisher self-update" &>"$LOG_DIR"/fisher.log &
 }
 
 gem_up() {
 	entrypoint gem || return
 
-	gem update --user-install
+	gem update --user-install &>"$LOG_DIR"/gem.log &
 }
 
 rcup_up() {
 	entrypoint rcup || return
 
-	rcup
+	rcup &>"$LOG_DIR"/rcup.log &
 }
 
 tldr_up() {
 	entrypoint tldr || return
 
-	tldr --update
+	tldr --update &>"$LOG_DIR"/tldr.log &
 }
 
 # VSCode
@@ -87,7 +98,7 @@ tldr_up() {
 # https://github.com/Microsoft/vscode/issues/16459
 
 main() {
-	brew_up
+	welcome
 	npm_up
 	yarn_up
 	mas_up
@@ -95,6 +106,8 @@ main() {
 	gem_up
 	rcup_up
 	tldr_up
+	brew_up
+	wait
 	fancy_echo "Hooray! Everything up-to-date." && exit 0
 }
 
