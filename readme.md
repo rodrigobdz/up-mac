@@ -2,7 +2,7 @@
 
 **UP**grade your **Mac** programs via CLI.
 
-### Features
+## Features
 
 If installed, the following programs will be upgraded:
 
@@ -14,6 +14,20 @@ If installed, the following programs will be upgraded:
 - [fisher](https://github.com/fisherman/fisherman)
 - [dotfiles](https://github.com/thoughtbot/dotfiles)
 - [tldr](https://github.com/tldr-pages/tldr)
+
+### Optional
+
+- Enable yarn autoclean
+
+```sh
+# fish
+# cd (yarn global dir)
+
+# bash
+cd "$(yarn global dir)"
+
+yarn autoclean --init
+```
 
 ## Usage
 
@@ -34,4 +48,3 @@ bash up-mac 2>&1 | tee ~/up-mac.log
 ```sh
 less ~/up-mac.log
 ```
-
