@@ -5,7 +5,8 @@
 set -o pipefail
 set -o nounset
 
-readonly LOG_DIR=./log
+# Points to directory where script is located instead of pwd
+readonly LOG_DIR=$(dirname "$0")/log
 
 fancy_echo() {
 	echo
