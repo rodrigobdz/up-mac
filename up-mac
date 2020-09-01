@@ -48,6 +48,8 @@ brew_up() {
 npm_up() {
 	entrypoint npm || return
 
+	npm install -g npm
+
 	npm update -g &>"$LOG_DIR"/npm.log &
 }
 
