@@ -6,12 +6,10 @@ cache:
   yarn: true
   directories:
     - $HOME/Library/Caches/Homebrew
-before_cache:
-  - brew cleanup
 addons:
   homebrew:
     packages:
       - shellcheck
 script:
   - shellcheck up-mac
-  - HOMEBREW_NO_AUTO_UPDATE=1 bash up-mac
+  - bash up-mac
