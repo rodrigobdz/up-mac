@@ -14,4 +14,4 @@ addons:
       - shellcheck
 script:
   - shellcheck up-mac
-  - bash up-mac
+  - HOMEBREW_NO_AUTO_UPDATE=1 bash up-mac
