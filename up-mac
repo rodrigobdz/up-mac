@@ -41,7 +41,7 @@ brew_up() {
 	{
 		brew update && brew upgrade && brew cleanup
 		fancy_echo "brew cask up"
-		brew cask upgrade --greedy
+		brew upgrade --cask --greedy
 	} 2>&1 | tee "$LOG_DIR"/brew.log
 }
 
