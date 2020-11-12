@@ -75,7 +75,7 @@ mas_up() {
 fisher_up() {
 	entrypoint fish || return
 
-	fish -c "fisher self-update" &>"$LOG_DIR"/fisher.log &
+	fish -c "fisher update" &>"$LOG_DIR"/fisher.log &
 }
 
 gem_up() {
