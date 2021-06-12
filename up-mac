@@ -48,9 +48,9 @@ brew_up() {
 npm_up() {
 	entrypoint npm || return
 
-	npm install -g npm
+	npm install --global npm@latest
 
-	npm update -g &>"$LOG_DIR"/npm.log &
+	npm update --global &>"$LOG_DIR"/npm.log &
 }
 
 yarn_up() {
