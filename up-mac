@@ -102,7 +102,8 @@ tldr_up() {
 
 main() {
 	welcome
-	npm_up
+	# npm is installed and managed by homebrew
+	# npm_up
 	yarn_up
 	mas_up
 	fisher_up
