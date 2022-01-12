@@ -39,7 +39,7 @@ brew_up() {
 	entrypoint brew || return
 
 	{
-		brew update && brew upgrade && brew cleanup
+		brew update && brew upgrade && brew cleanup --prune=all
 		fancy_echo "brew cask up"
 		brew upgrade --cask --greedy
 	} 2>&1 | tee "$LOG_DIR"/brew.log
