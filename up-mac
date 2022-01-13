@@ -96,6 +96,13 @@ tldr_up() {
 	tldr --update &>"$LOG_DIR"/tldr.log &
 }
 
+z_up() {
+	entrypoint z || return
+
+	# Removes directories that no longer exist in ~/.local/share/z/data
+	z --clean &>"$LOG_DIR"/z.log &
+}
+
 # VSCode
 # Coming soon...
 # https://github.com/Microsoft/vscode/issues/16459
@@ -111,6 +118,7 @@ main() {
 	rcup_up
 	tldr_up
 	brew_up
+	z_up
 	wait
 	fancy_echo "Hooray! Everything up-to-date." && exit 0
 }
