@@ -6,101 +6,102 @@ set -o pipefail
 set -o nounset
 
 # Points to directory where script is located instead of pwd
-readonly LOG_DIR=$(dirname "$0")/log
+LOG_DIR=$(dirname "$0")/log
+readonly LOG_DIR
 
 fancy_echo() {
-	echo
-	echo "==> $1"
-	echo
+  echo
+  echo "==> $1"
+  echo
 }
 
 # Check if command exists in path and is executable,
 # otherwise skip.
 entrypoint() {
-	local -r cmd="$1"
+  local -r cmd="$1"
 
-	# shellcheck disable=2086
-	if [ -x "$(command -v $cmd)" ]; then
-		fancy_echo "$cmd up"
-		return
-	fi
+  # shellcheck disable=2086
+  if [ -x "$(command -v $cmd)" ]; then
+    fancy_echo "$cmd up"
+    return
+  fi
 
-	fancy_echo "Skipping $cmd"
+  fancy_echo "Skipping $cmd"
 
-	return 1
+  return 1
 }
 
 welcome() {
-	fancy_echo "up-mac"
-	mkdir -p "$LOG_DIR"/
+  fancy_echo "up-mac"
+  mkdir -p "$LOG_DIR"/
 }
 
 brew_up() {
-	entrypoint brew || return
+  entrypoint brew || return
 
-	{
-		brew update && brew upgrade && brew cleanup --prune=all
-		fancy_echo "brew cask up"
-		brew upgrade --cask --greedy
-	} 2>&1 | tee "$LOG_DIR"/brew.log
+  {
+    brew update && brew upgrade && brew cleanup --prune=all
+    fancy_echo "brew cask up"
+    brew upgrade --cask --greedy
+  } 2>&1 | tee "$LOG_DIR"/brew.log
 }
 
 npm_up() {
-	entrypoint npm || return
+  entrypoint npm || return
 
-	npm install --global npm@latest
+  npm install --global npm@latest
 
-	npm update --global &>"$LOG_DIR"/npm.log &
+  npm update --global &>"$LOG_DIR"/npm.log &
 }
 
 yarn_up() {
-	entrypoint yarn || return
+  entrypoint yarn || return
 
-	{
-		cd "$(yarn global dir)" &&
-			yarn cache --force clean &&
-			rm -rf node_modules/ &&
-			yarn install &&
-			yarn upgrade &&
-			yarn autoclean --force
-	} &>"$LOG_DIR"/yarn.log &
+  {
+    cd "$(yarn global dir)" &&
+      yarn cache --force clean &&
+      rm -rf node_modules/ &&
+      yarn install &&
+      yarn upgrade &&
+      yarn autoclean --force
+  } &>"$LOG_DIR"/yarn.log &
 }
 
 mas_up() {
-	entrypoint mas || return
+  entrypoint mas || return
 
-	mas upgrade &>"$LOG_DIR"/mas.log &
+  mas upgrade &>"$LOG_DIR"/mas.log &
 }
 
 fisher_up() {
-	entrypoint fish || return
+  entrypoint fish || return
 
-	fish -c "fisher update" &>"$LOG_DIR"/fisher.log &
+  fish -c "fisher update" &>"$LOG_DIR"/fisher.log &
 }
 
 gem_up() {
-	entrypoint gem || return
+  entrypoint gem || return
 
-	gem update --user-install &>"$LOG_DIR"/gem.log &
+  gem update --user-install &>"$LOG_DIR"/gem.log &
 }
 
 rcup_up() {
-	entrypoint rcup || return
+  entrypoint rcup || return
 
-	rcup &>"$LOG_DIR"/rcup.log &
+  rcup &>"$LOG_DIR"/rcup.log &
 }
 
 tldr_up() {
-	entrypoint tldr || return
+  entrypoint tldr || return
 
-	tldr --update &>"$LOG_DIR"/tldr.log &
+  tldr --update &>"$LOG_DIR"/tldr.log &
 }
 
 z_up() {
-	entrypoint z || return
+  entrypoint z || return
 
-	# Removes directories that no longer exist in ~/.local/share/z/data
-	z --clean &>"$LOG_DIR"/z.log &
+  # Removes directories that no longer exist in ~/.local/share/z/data
+  z --clean &>"$LOG_DIR"/z.log &
 }
 
 # VSCode
@@ -108,19 +109,19 @@ z_up() {
 # https://github.com/Microsoft/vscode/issues/16459
 
 main() {
-	welcome
-	# npm is installed and managed by homebrew
-	# npm_up
-	yarn_up
-	mas_up
-	fisher_up
-	gem_up
-	rcup_up
-	tldr_up
-	brew_up
-	z_up
-	wait
-	fancy_echo "Hooray! Everything up-to-date." && exit 0
+  welcome
+  # npm is installed and managed by homebrew
+  # npm_up
+  yarn_up
+  mas_up
+  fisher_up
+  gem_up
+  rcup_up
+  tldr_up
+  brew_up
+  z_up
+  wait
+  fancy_echo "Hooray! Everything up-to-date." && exit 0
 }
 
 main "$@"
