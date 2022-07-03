@@ -40,7 +40,9 @@ brew_up() {
   entrypoint brew || return
 
   {
+    fancy_echo "Updating and upgrading Homebrew"
     brew update && brew upgrade && brew cleanup --prune=all
+
     fancy_echo "brew cask up"
     brew upgrade --cask --greedy
   } 2>&1 | tee "$LOG_DIR"/brew.log
@@ -49,8 +51,10 @@ brew_up() {
 npm_up() {
   entrypoint npm || return
 
+  fancy_echo "Upgrading global npm version"
   npm install --global npm@latest
 
+  fancy_echo "Upgrading global npm packages"
   npm update --global &>"$LOG_DIR"/npm.log &
 }
 
@@ -59,10 +63,15 @@ yarn_up() {
 
   {
     cd "$(yarn global dir)" &&
+      fancy_echo "Cleaning yarn cache" &&
       yarn cache --force clean &&
+      fancy_echo "Removing global yarn modules" &&
       rm -rf node_modules/ &&
+      fancy_echo "Installing yarn modules" &&
       yarn install &&
+      fancy_echo "Upgrading yarn modules" &&
       yarn upgrade &&
+      fancy_echo "Autocleaning yarn" &&
       yarn autoclean --force
   } &>"$LOG_DIR"/yarn.log &
 }
@@ -70,6 +79,7 @@ yarn_up() {
 mas_up() {
   entrypoint mas || return
 
+  fancy_echo "Upgrading Mac App Store apps"
   mas upgrade &>"$LOG_DIR"/mas.log &
 }
 
@@ -82,18 +92,21 @@ fisher_up() {
 gem_up() {
   entrypoint gem || return
 
+  fancy_echo "Updating user gems"
   gem update --user-install &>"$LOG_DIR"/gem.log &
 }
 
 rcup_up() {
   entrypoint rcup || return
 
+  fancy_echo "Updating dotfiles using rcup"
   rcup &>"$LOG_DIR"/rcup.log &
 }
 
 tldr_up() {
   entrypoint tldr || return
 
+  fancy_echo "Updating tldr"
   tldr --update &>"$LOG_DIR"/tldr.log &
 }
 
@@ -101,6 +114,7 @@ z_up() {
   entrypoint z || return
 
   # Removes directories that no longer exist in ~/.local/share/z/data
+  fancy_echo "Cleaning z cache"
   z --clean &>"$LOG_DIR"/z.log &
 }
 
