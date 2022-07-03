@@ -92,8 +92,8 @@ backup_fish() {
     return
   fi
 
-  fancy_echo "Backing up fish home under $fish_home to /tmp/fish_home.bak"
-  cp -r "$fish_home" "/tmp/fish_home.bak"
+  fancy_echo "Backing up fish functions under $fish_home/functions to /tmp/fish_functions.bak"
+  cp -r "$fish_home/functions" "/tmp/fish_functions.bak"
 }
 
 fisher_up() {
