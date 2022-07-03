@@ -83,9 +83,25 @@ mas_up() {
   mas upgrade &>"$LOG_DIR"/mas.log &
 }
 
+backup_fish() {
+  local -r fish_home="$HOME/.config/fish"
+  fancy_echo "Backing up fish home under $fish_home"
+
+  if [ ! -d "$fish_home" ]; then
+    fancy_echo "Skipping fish backup because directory $fish_home does not exist"
+    return
+  fi
+
+  fancy_echo "Backing up fish home under $fish_home to /tmp/fish_home.bak"
+  cp -r "$fish_home" "/tmp/fish_home.bak"
+}
+
 fisher_up() {
   entrypoint fish || return
 
+  backup_fish
+
+  fancy_echo "Updating fisher"
   fish -c "fisher update" &>"$LOG_DIR"/fisher.log &
 }
 
