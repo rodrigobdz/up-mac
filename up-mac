@@ -134,6 +134,14 @@ z_up() {
   z --clean &>"$LOG_DIR"/z.log &
 }
 
+gh_up() {
+  entrypoint gh || return
+
+  fancy_echo "Update gh copilot extension"
+  # Command from https://github.com/github/gh-copilot
+  gh extension install github/gh-copilot --force
+}
+
 # VSCode
 # Coming soon...
 # https://github.com/Microsoft/vscode/issues/16459
@@ -149,6 +157,7 @@ main() {
   rcup_up
   tldr_up
   brew_up
+  gh_up
   z_up
   wait
   fancy_echo "Hooray! Everything up-to-date." && exit 0
